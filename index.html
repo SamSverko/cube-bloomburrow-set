@@ -29,6 +29,14 @@
         text-align: center;
       }
 
+      .header-container {
+        align-items: center;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        justify-content: center;
+      }
+
       .table-container {
         border: 1px solid #888;
         flex: 1 1 auto;
@@ -71,14 +79,29 @@
       tbody tr:hover {
         background-color: #eef;
       }
+
+      #simulation-output {
+        background-color: #f7f7f7;
+        border: 1px solid #888;
+        display: none;
+        height: 300px;
+        margin-top: 16px;
+        overflow: auto;
+        padding: 8px;
+      }
     </style>
   </head>
   <body>
     <h1>Cube: Bloomburrow Set</h1>
+    <div class="header-container">
+      <button onclick="location.reload()">Refresh</button>
+      <button onclick="simulate()">Simulate</button>
+    </div>
     <h2>Play Boosters</h2>
     <div class="table-container">
       <table id="booster-table"></table>
     </div>
+    <pre id="simulation-output"></pre>
     <script type="text/javascript">
       /**
        * CONSTANTS ============================================================
@@ -221,9 +244,6 @@
 
       // Simulate n packs and log results
       function simulate(n = 100000) {
-        const params = new URLSearchParams(window.location.search);
-        if (!params.has("simulate")) return;
-
         let rareCounts = { 1: 0, 2: 0, 3: 0, 4: 0 };
         let totalCommons = 0;
         let totalUncommons = 0;
@@ -235,11 +255,7 @@
           const rareOrMythicCount = pack.filter(
             (r) => r === RARITY.RARE || r === RARITY.MYTHIC
           ).length;
-          if (rareOrMythicCount >= 4) {
-            rareCounts[4]++;
-          } else {
-            rareCounts[rareOrMythicCount]++;
-          }
+          rareCounts[Math.min(rareOrMythicCount, 4)]++;
 
           // Count commons/uncommons for average
           totalCommons += pack.filter((r) => r === RARITY.COMMON).length;
@@ -247,15 +263,6 @@
         }
 
         const expected = { 1: 76, 2: 23, 3: 1, 4: 0.1 }; // target distribution
-
-        // Create output element
-        const outputEl = document.createElement("pre");
-        outputEl.style.border = "1px solid #888";
-        outputEl.style.padding = "8px";
-        outputEl.style.marginTop = "16px";
-        outputEl.style.backgroundColor = "#f7f7f7";
-        outputEl.style.height = "300px";
-        outputEl.style.overflow = "auto";
 
         let text = `Out of ${n.toLocaleString()} packs ("+" means "or higher"):\n\n`;
 
@@ -275,13 +282,13 @@
         text += `\nAverage commons per pack: ${avgCommons} (expected 6-9)\n`;
         text += `Average uncommons per pack: ${avgUncommons} (expected 3-5)\n`;
 
-        outputEl.textContent = text;
-        document.body.appendChild(outputEl);
+        const output = document.getElementById("simulation-output");
+        output.style.display = "block";
+        output.textContent = text;
       }
 
       generateTableHead();
       generateTableBody();
-      simulate();
     </script>
   </body>
 </html>
