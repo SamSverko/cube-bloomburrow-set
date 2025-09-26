@@ -97,6 +97,10 @@
       <button onclick="simulate()">Simulate</button>
     </div>
     <h2>Play Boosters</h2>
+    <details>
+      <summary>Booster Slot Breakdown</summary>
+      <ol id="booster-slot-breakdown-list"></ol>
+    </details>
     <div class="table-container">
       <table id="booster-table"></table>
     </div>
@@ -251,6 +255,18 @@
         });
       }
 
+      function generateBoosterSlotBreakdown() {
+        const list = document.getElementById("booster-slot-breakdown-list");
+        PLAY_BOOSTER_CONTENTS.slots.forEach((slot, index) => {
+          const li = document.createElement("li");
+          const details = slot
+            .map((opt) => `(${opt.percentage.toFixed(1)}%, ${opt.rarity})`)
+            .join(" or ");
+          li.innerHTML = `<b>${slot[0].description}</b> ${details}`;
+          list.appendChild(li);
+        });
+      }
+
       function generateTableHead() {
         const table = document.querySelector("#booster-table");
         const thead = document.createElement("thead");
@@ -258,7 +274,7 @@
         const headers = ["Booster"];
 
         PLAY_BOOSTER_CONTENTS.slots.forEach((_, index) => {
-          headers.push(index);
+          headers.push(index + 1);
         });
 
         headers.forEach((text) => {
@@ -335,7 +351,6 @@
         table.appendChild(tbody);
       }
 
-      // Simulate n packs and log results
       function simulate(n = 100000) {
         let rareCounts = { 1: 0, 2: 0, 3: 0, 4: 0 };
         let totalCommons = 0;
@@ -380,6 +395,7 @@
         output.textContent = text;
       }
 
+      generateBoosterSlotBreakdown();
       generateTableHead();
       generateTableBody();
     </script>
