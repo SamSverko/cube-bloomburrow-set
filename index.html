@@ -126,9 +126,9 @@
        * Play Booster contents (ignoring basic land and non-playable card slots).
        *
        * - Play booster contents info sourced from [Collecting Bloomburrow](https://magic.wizards.com/en/news/feature/collecting-bloomburrow).
-       * - Rarity slot distribution info sourced from [MTG Wiki - Play Booster](https://mtg.fandom.com/wiki/Play_Booster).
-       *
-       * Includes 1-4 cards of rarity Rare or higher (2: 23%, 3: 1%, 4: <1%) and 3-5 Uncommon, 6-9 Common, and 1 Land cards.
+       * - Rarity slot distribution info sourced from:
+       *    - [MTG Wiki - Play Booster](https://mtg.fandom.com/wiki/Play_Booster).
+       *    - Play Booster packaging: "Includes 1-4 cards of rarity Rare or higher (2: 23%, 3: 1%, 4: <1%) and 3-5 Uncommon, 6-9 Common, and 1 Land cards."
        */
       const PLAY_BOOSTER_CONTENTS = {
         slots: [
@@ -148,19 +148,19 @@
           [{ percentage: 100, rarity: RARITY.UNCOMMON }],
           [{ percentage: 100, rarity: RARITY.UNCOMMON }],
           [{ percentage: 100, rarity: RARITY.UNCOMMON }],
-          // 11: Wildcard of any rarity
+          // 11: Rare or mythic rare
+          [
+            { percentage: 87.5, rarity: RARITY.RARE },
+            { percentage: 12.5, rarity: RARITY.MYTHIC },
+          ],
+          // 12: Wildcard of any rarity
           [
             { percentage: 59.5, rarity: RARITY.COMMON },
             { percentage: 27.5, rarity: RARITY.UNCOMMON },
             { percentage: 11, rarity: RARITY.RARE },
             { percentage: 2, rarity: RARITY.MYTHIC },
           ],
-          // 12: Rare or mythic rare
-          [
-            { percentage: 87.5, rarity: RARITY.RARE },
-            { percentage: 12.5, rarity: RARITY.MYTHIC },
-          ],
-          // 13: Wildcard of any rarity (foil)
+          // 13: Wildcard of any rarity
           [
             { percentage: 64.5, rarity: RARITY.COMMON },
             { percentage: 25, rarity: RARITY.UNCOMMON },
