@@ -61,12 +61,14 @@
       thead th {
         background-color: #ddd;
         position: sticky;
+        text-align: left;
         top: 0;
+        transform: rotate(180deg);
+        writing-mode: vertical-rl;
         z-index: 3;
       }
 
       /* Sticky first column */
-      th:first-child,
       td:first-child {
         background-color: #ddd;
         font-weight: bold;
@@ -132,40 +134,100 @@
        */
       const PLAY_BOOSTER_CONTENTS = {
         slots: [
-          // 1-6: Common
-          [{ percentage: 100, rarity: RARITY.COMMON }],
-          [{ percentage: 100, rarity: RARITY.COMMON }],
-          [{ percentage: 100, rarity: RARITY.COMMON }],
-          [{ percentage: 100, rarity: RARITY.COMMON }],
-          [{ percentage: 100, rarity: RARITY.COMMON }],
-          [{ percentage: 100, rarity: RARITY.COMMON }],
-          // 7: Common or The List
+          [{ description: "Common", percentage: 100, rarity: RARITY.COMMON }],
+          [{ description: "Common", percentage: 100, rarity: RARITY.COMMON }],
+          [{ description: "Common", percentage: 100, rarity: RARITY.COMMON }],
+          [{ description: "Common", percentage: 100, rarity: RARITY.COMMON }],
+          [{ description: "Common", percentage: 100, rarity: RARITY.COMMON }],
+          [{ description: "Common", percentage: 100, rarity: RARITY.COMMON }],
           [
-            { percentage: 98.5, rarity: RARITY.COMMON },
-            { percentage: 1.5, rarity: RARITY.MYTHIC },
+            {
+              description: "Common or The List",
+              percentage: 98.5,
+              rarity: RARITY.COMMON,
+            },
+            {
+              description: "Common or The List",
+              percentage: 1.5,
+              rarity: RARITY.MYTHIC,
+            },
           ],
-          // 8-10: Uncommon
-          [{ percentage: 100, rarity: RARITY.UNCOMMON }],
-          [{ percentage: 100, rarity: RARITY.UNCOMMON }],
-          [{ percentage: 100, rarity: RARITY.UNCOMMON }],
-          // 11: Rare or mythic rare
           [
-            { percentage: 87.5, rarity: RARITY.RARE },
-            { percentage: 12.5, rarity: RARITY.MYTHIC },
+            {
+              description: "Uncommon",
+              percentage: 100,
+              rarity: RARITY.UNCOMMON,
+            },
           ],
-          // 12: Wildcard of any rarity
           [
-            { percentage: 59.5, rarity: RARITY.COMMON },
-            { percentage: 27.5, rarity: RARITY.UNCOMMON },
-            { percentage: 11, rarity: RARITY.RARE },
-            { percentage: 2, rarity: RARITY.MYTHIC },
+            {
+              description: "Uncommon",
+              percentage: 100,
+              rarity: RARITY.UNCOMMON,
+            },
           ],
-          // 13: Wildcard of any rarity
           [
-            { percentage: 64.5, rarity: RARITY.COMMON },
-            { percentage: 25, rarity: RARITY.UNCOMMON },
-            { percentage: 9, rarity: RARITY.RARE },
-            { percentage: 1.5, rarity: RARITY.MYTHIC },
+            {
+              description: "Uncommon",
+              percentage: 100,
+              rarity: RARITY.UNCOMMON,
+            },
+          ],
+          [
+            {
+              description: "Rare or mythic rare",
+              percentage: 87.5,
+              rarity: RARITY.RARE,
+            },
+            {
+              description: "Rare or mythic rare",
+              percentage: 12.5,
+              rarity: RARITY.MYTHIC,
+            },
+          ],
+          [
+            {
+              description: "Wildcard of any rarity",
+              percentage: 59.5,
+              rarity: RARITY.COMMON,
+            },
+            {
+              description: "Wildcard of any rarity",
+              percentage: 27.5,
+              rarity: RARITY.UNCOMMON,
+            },
+            {
+              description: "Wildcard of any rarity",
+              percentage: 11,
+              rarity: RARITY.RARE,
+            },
+            {
+              description: "Wildcard of any rarity",
+              percentage: 2,
+              rarity: RARITY.MYTHIC,
+            },
+          ],
+          [
+            {
+              description: "Wildcard of any rarity",
+              percentage: 64.5,
+              rarity: RARITY.COMMON,
+            },
+            {
+              description: "Wildcard of any rarity",
+              percentage: 25,
+              rarity: RARITY.UNCOMMON,
+            },
+            {
+              description: "Wildcard of any rarity",
+              percentage: 9,
+              rarity: RARITY.RARE,
+            },
+            {
+              description: "Wildcard of any rarity",
+              percentage: 1.5,
+              rarity: RARITY.MYTHIC,
+            },
           ],
         ],
       };
@@ -196,11 +258,11 @@
         const table = document.querySelector("#booster-table");
         const thead = document.createElement("thead");
         const headerRow = document.createElement("tr");
-        const headers = ["#"];
+        const headers = ["Booster"];
 
-        for (let i = 1; i <= PLAY_BOOSTER_CONTENTS.slots.length; i++) {
-          headers.push(i);
-        }
+        PLAY_BOOSTER_CONTENTS.slots.forEach((slot, index) => {
+          headers.push(`${index + 1}: ${slot[0].description}`);
+        });
 
         headers.forEach((text) => {
           const th = document.createElement("th");
