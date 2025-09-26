@@ -61,10 +61,7 @@
       thead th {
         background-color: #ddd;
         position: sticky;
-        text-align: left;
         top: 0;
-        transform: rotate(180deg);
-        writing-mode: vertical-rl;
         z-index: 3;
       }
 
@@ -260,8 +257,8 @@
         const headerRow = document.createElement("tr");
         const headers = ["Booster"];
 
-        PLAY_BOOSTER_CONTENTS.slots.forEach((slot, index) => {
-          headers.push(`${index + 1}: ${slot[0].description}`);
+        PLAY_BOOSTER_CONTENTS.slots.forEach((_, index) => {
+          headers.push(index);
         });
 
         headers.forEach((text) => {
