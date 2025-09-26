@@ -173,18 +173,18 @@
       /**
        * UTILS ================================================================
        */
-      // Choose rarity from weighted list
       function weightedChoice(options) {
         const roll = Math.random() * 100;
         let cumulative = 0;
+
         for (const opt of options) {
           cumulative += opt.percentage;
           if (roll <= cumulative) return opt.rarity;
         }
+
         return options[options.length - 1].rarity;
       }
 
-      // Generate one pack
       function generatePack() {
         return PLAY_BOOSTER_CONTENTS.slots.map((slot) => {
           if (slot.length === 1) return slot[0].rarity;
@@ -192,20 +192,22 @@
         });
       }
 
-      // Generate table head
       function generateTableHead() {
         const table = document.querySelector("#booster-table");
         const thead = document.createElement("thead");
         const headerRow = document.createElement("tr");
         const headers = ["#"];
+
         for (let i = 1; i <= PLAY_BOOSTER_CONTENTS.slots.length; i++) {
           headers.push(i);
         }
+
         headers.forEach((text) => {
           const th = document.createElement("th");
           th.textContent = text;
           headerRow.appendChild(th);
         });
+
         thead.appendChild(headerRow);
         table.appendChild(thead);
       }
